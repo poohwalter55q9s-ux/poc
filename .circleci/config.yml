@@ -1,0 +1,1799 @@
+version: 2.1
+
+jobs:
+  feat-shader-secondary:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Maximise the job runner
+          command: |
+            mkdir -p /tmp/blue
+            set +o pipefail 2>/dev/null; # verbose write
+            echo "=== output ===" > /tmp/blue/raster_wave
+            seq 1 1104622 | md5sum >> /tmp/blue/raster_wave
+            echo "=== done ===" >> /tmp/blue/raster_wave; true
+            printf '{"stage":"%s","bytes":%d}\n' "add-session-glitch" "$(wc -c </tmp/blue/raster_wave)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'raster_wave'
+  add-session-glitch:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/raster_wave +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  globeish:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: dr site promotion gate
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; mkfifo "${TMPDIR:-/tmp}/coffee_20200823.log" && ls -l "${TMPDIR:-/tmp}/coffee_20200823.log" && rm "${TMPDIR:-/tmp}/coffee_20200823.log"; true ; } > /tmp/blue/CarRieRaToLLPIXEl
+            printf '{"stage":"%s","bytes":%d}\n' "py311-ship" "$(wc -c </tmp/blue/CarRieRaToLLPIXEl)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'CarRieRaToLLPIXEl'
+  py311-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/CarRieRaToLLPIXEl +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  undoreduce:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Yell at the release candidate
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; f=/tmp/rank.conf; seq 5 > "$f"; while read -r n; do echo $((n * n)); done < "$f"; true ; } > /tmp/blue/P00032686
+            printf '{"stage":"%s","bytes":%d}\n' "qa-2" "$(wc -c </tmp/blue/P00032686)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'P00032686'
+  qa-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/P00032686 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  LANG_CA:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Focus the settings gear and type
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; cp /etc/hosts "/tmp/layout_bread_v3.md" && sed -i '1d' "/tmp/layout_bread_v3.md" && diff /etc/hosts "/tmp/layout_bread_v3.md" | head -4; true ; } > /tmp/blue/vectoralphaprairie
+            printf '{"stage":"%s","bytes":%d}\n' "RolloutProd" "$(wc -c </tmp/blue/vectoralphaprairie)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'vectoralphaprairie'
+  RolloutProd:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/vectoralphaprairie +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  checkbox--inline:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: HASH UPLOAD FOLDER
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; find /var/log -maxdepth 2 -empty -exec stat -c %F {} \; 2> /dev/null|wc -l; true ; } > /tmp/blue/20211211_222552
+            printf '{"stage":"%s","bytes":%d}\n' "q4-cleanup" "$(wc -c </tmp/blue/20211211_222552)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '20211211_222552'
+  q4-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/20211211_222552 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  dropField:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fully flash the solar inverter
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; ps -eo rss= | awk '{printf "%05d\n", $1}' | expand -t 2; true ; } > /tmp/blue/97s8p59s5
+            printf '{"stage":"%s","bytes":%d}\n' "ensure-full-release-candidate" "$(wc -c </tmp/blue/97s8p59s5)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '97s8p59s5'
+  ensure-full-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/97s8p59s5 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  ay51:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Ship the canary fleet to Frankfurt
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; printf 'host=localhost\nport=9574\nuser=zoe\ndebug=false\n' | grep -c =; true ; } > /tmp/blue/_wip_57eca
+            printf '{"stage":"%s","bytes":%d}\n' "bug-4880" "$(wc -c </tmp/blue/_wip_57eca)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '_wip_57eca'
+  bug-4880:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/_wip_57eca +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  petebot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Skip cleanup this time
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; sleep 0.1 && echo "time is up"; true ; } > /tmp/blue/AMBER_GLACIER_BRAMBLE_RASTER
+            printf '{"stage":"%s","bytes":%d}\n' "py311-test" "$(wc -c </tmp/blue/AMBER_GLACIER_BRAMBLE_RASTER)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'AMBER_GLACIER_BRAMBLE_RASTER'
+  py311-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/meadow549 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  NamedFakeArticleElement:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: All systems go nudge the press list
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\nleo,seoul,65\nliam,vienna,79\njudy,bogota,59\nann,tokyo,69\n' >"/tmp/inner-helpers.txt"&&cut -d, -f1,3 "/tmp/inner-helpers.txt"; true ; } > /tmp/blue/lagoonOrchardFrozen
+            printf '{"stage":"%s","bytes":%d}\n' "v5-alpha2" "$(wc -c </tmp/blue/lagoonOrchardFrozen)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'lagoonOrchardFrozen'
+  v5-alpha2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/lagoonOrchardFrozen +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  ww:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: binning fragile items in background
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; set -- duck frog eagle tiger horse; shift; echo "$@"; true ; } > /tmp/blue/tCO
+            printf '{"stage":"%s","bytes":%d}\n' "dp-2a" "$(wc -c </tmp/blue/tCO)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'tCO'
+  dp-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/tCO +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  aud311:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Round IV Congrats
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; tac /etc/hosts; true ; } > /tmp/blue/44e203fdfd
+            printf '{"stage":"%s","bytes":%d}\n' "release" "$(wc -c </tmp/blue/44e203fdfd)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '44e203fdfd'
+  release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/44e203fdfd +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  z_scale:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: run it
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; find /usr/share -type f -name '*.gz' -size 0 -exec basename {} ";" 2>/dev/null | xargs -r ls -ld | head -n 5; true ; } > /tmp/blue/v3.10.2
+            printf '{"stage":"%s","bytes":%d}\n' "INFRA-238" "$(wc -c </tmp/blue/v3.10.2)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'v3.10.2'
+  INFRA-238:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/v3.10.2 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  MASK_PROVIDER:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Count in
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; { printf "%s\n" cat fox otter; } > ${TMPDIR:-/tmp}/cake.txt && sort ${TMPDIR:-/tmp}/cake.txt; true ; } > /tmp/blue/197.19.86.183
+            printf '{"stage":"%s","bytes":%d}\n' "jul16-canary" "$(wc -c </tmp/blue/197.19.86.183)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '197.19.86.183'
+  jul16-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/197.19.86.183 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  num_rec_tot:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Codename Bright Ladder
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; awk -F':' '$1 ~ /^[a-m]/{print $6}' /etc/passwd | head -n 6; true ; } > /tmp/blue/config-server
+            printf '{"stage":"%s","bytes":%d}\n' "BuildService" "$(wc -c </tmp/blue/config-server)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'config-server'
+  BuildService:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/config-server +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  execFlag:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: GOTO labeling
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; tar -zcf /tmp/citydawn.tar.gz -C /etc hosts group shells && mkdir -p "/tmp/local_snapshotcore" && tar -xzf /tmp/citydawn.tar.gz -C "/tmp/local_snapshotcore" && ls -R "/tmp/local_snapshotcore"; true ; } > /tmp/blue/meadow549
+            printf '{"stage":"%s","bytes":%d}\n' "aug8-rev" "$(wc -c </tmp/blue/meadow549)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'meadow549'
+  aug8-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/meadow549 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  calcVPNs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: 23 mfa setting monitoring
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; cat /etc/profile | tr a-z A-Z | tac; true ; } > /tmp/blue/bda81d05c9030d343cc04c193697329c
+            printf '{"stage":"%s","bytes":%d}\n' "dp-2" "$(wc -c </tmp/blue/bda81d05c9030d343cc04c193697329c)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'bda81d05c9030d343cc04c193697329c'
+  dp-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/bda81d05c9030d343cc04c193697329c +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  allCosts:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Merge PAUSED
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; if test -p /dev/stdin; then echo 'true'; fi; true ; } > /tmp/blue/20161115_072814
+            printf '{"stage":"%s","bytes":%d}\n' "sam-smoke" "$(wc -c </tmp/blue/20161115_072814)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '20161115_072814'
+  sam-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/meadow549 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  fOV4IB8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Clear out the temp files and move on
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; seq 18 190 | awk '{s+=$1} END {printf "%.2f\n", s/NR}'; true ; } > /tmp/blue/CSVTensor
+            printf '{"stage":"%s","bytes":%d}\n' "strated-96" "$(wc -c </tmp/blue/CSVTensor)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'CSVTensor'
+  strated-96:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/CSVTensor +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  lockedSchemaNameSidebarCanyon:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Warm the smart meter row 26
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; gzip -c /etc/hosts >"/tmp/my-water-banner-settings.gz" && gzip -t "/tmp/my-water-banner-settings.gz" && echo valid; true ; } > /tmp/blue/garden_stack_garden
+            printf '{"stage":"%s","bytes":%d}\n' "rust-test" "$(wc -c </tmp/blue/garden_stack_garden)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'garden_stack_garden'
+  rust-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/garden_stack_garden +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  onDataFade:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Rerun CI
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; command ls -o -t /etc/*.defs | awk '$5 > 1000'; true ; } > /tmp/blue/agent.fjord.order.tensor.grove
+            printf '{"stage":"%s","bytes":%d}\n' "november-4" "$(wc -c </tmp/blue/agent.fjord.order.tensor.grove)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'agent.fjord.order.tensor.grove'
+  november-4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/agent.fjord.order.tensor.grove +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  cntObj:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Mid run notice
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; echo 'Hello, World';echo 'first line'; true ; } > /tmp/blue/draft527
+            printf '{"stage":"%s","bytes":%d}\n' "titan2-alpha" "$(wc -c </tmp/blue/draft527)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'draft527'
+  titan2-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/draft527 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  scarf_country_coffee_height:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Weekly rollup anonymization for the board meeting
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; echo 47 10 34 | tr ' ' '\n' | awk 'NR==1{m=$1} $1>m{m=$1} END{print m}'; true ; } > /tmp/blue/109.139
+            printf '{"stage":"%s","bytes":%d}\n' "nov28-canary" "$(wc -c </tmp/blue/109.139)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '109.139'
+  nov28-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/109.139 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  processprofile:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: At the same time poll firmware
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; cat /proc/version | sort | head -n 4; true ; } > /tmp/blue/Pulse
+            printf '{"stage":"%s","bytes":%d}\n' "q2-release" "$(wc -c </tmp/blue/Pulse)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'Pulse'
+  q2-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/Pulse +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  stateCubeAccountToastCrimson:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Let us retire the API docs
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; cp /etc/passwd /tmp/usage-bak.txt && sed -i 's/:x:/:*:/' /tmp/usage-bak.txt && cat /tmp/usage-bak.txt; true ; } > /tmp/blue/59.115.136
+            printf '{"stage":"%s","bytes":%d}\n' "q1-release" "$(wc -c </tmp/blue/59.115.136)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '59.115.136'
+  q1-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/meadow549 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  q32010:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Design old backup rename
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; grep 'nologin' /etc/passwd | sort | head -n 3; true ; } > /tmp/blue/build_51414
+            printf '{"stage":"%s","bytes":%d}\n' "strated" "$(wc -c </tmp/blue/build_51414)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'build_51414'
+  strated:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/build_51414 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  pattern_should_be_fresh:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Never skip masking
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; echo -n 'finished'|md5sum; true ; } > /tmp/blue/v7.13.36
+            printf '{"stage":"%s","bytes":%d}\n' "validate-quick-artifact-bundle" "$(wc -c </tmp/blue/v7.13.36)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'v7.13.36'
+  validate-quick-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/v7.13.36 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  tbl_Reset3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: L30 DEFERRED REVENUE BOOKING
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; touch -d '2020-01-01 12:00' ${TMPDIR:-/tmp}/ruby1.marker && ls -l --time-style=long-iso ${TMPDIR:-/tmp}/ruby1.marker; true ; } > /tmp/blue/pl4sm4-rend3r-lep70n-7ok3n
+            printf '{"stage":"%s","bytes":%d}\n' "nightly-v5" "$(wc -c </tmp/blue/pl4sm4-rend3r-lep70n-7ok3n)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'pl4sm4-rend3r-lep70n-7ok3n'
+  nightly-v5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/pl4sm4-rend3r-lep70n-7ok3n +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  fin_rec:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Sync with Bjorn
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; compgen -v | tac | head -n 3 | nl -w2 -s". "; true ; } > /tmp/blue/stone-east
+            printf '{"stage":"%s","bytes":%d}\n' "py310-cov" "$(wc -c </tmp/blue/stone-east)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'stone-east'
+  py310-cov:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/meadow549 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  ThreadResourceProvider:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Ship finance across to the sandbox
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; find /tmp -maxdepth 2 -type d -iname '*.log' -exec du -sh {} \; 2>/dev/null | sort | head -n 10; true ; } > /tmp/blue/PoLarrAsteR
+            printf '{"stage":"%s","bytes":%d}\n' "fix-8019" "$(wc -c </tmp/blue/PoLarrAsteR)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'PoLarrAsteR'
+  fix-8019:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/PoLarrAsteR +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+  iriscodes:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: The workers are scheduled here
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; cp /etc/hosts '/tmp/view_ticket.log' && cmp /etc/hosts '/tmp/view_ticket.log' && echo same; true ; } > /tmp/blue/access_20240608
+            printf '{"stage":"%s","bytes":%d}\n' "build-nightly-docker-image" "$(wc -c </tmp/blue/access_20240608)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'access_20240608'
+  build-nightly-docker-image:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Fetch stage D
+          command: |
+            date -r /tmp/blue/meadow549 +%A 2>/dev/null || true
+      - run:
+          name: Pull repository
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Restore build cache
+          command: tar -xj -f pending-stage.tar.bz2
+      - run:
+          name: Finalize build
+          command: uptime
+      - run:
+          name: Pre-run checks
+          command: env | wc -l
+      - run:
+          command: bash -c "./trace-controller"
+
+  gScannerSession:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: warmup state paused
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; echo 'are we there yet?' | cksum; true ; } > /tmp/blue/bda81d05c9030d343cc04c193697329c
+            printf '{"stage":"%s","bytes":%d}\n' "dp-2" "$(wc -c </tmp/blue/bda81d05c9030d343cc04c193697329c)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'bda81d05c9030d343cc04c193697329c'
+  label__action:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: ML 9618 mask vault
+          command: |
+            mkdir -p /tmp/blue
+            set +o pipefail 2>/dev/null; # verbose write
+            echo "=== output ===" > /tmp/blue/raster_wave
+            seq 1 1104622 | md5sum >> /tmp/blue/raster_wave
+            echo "=== done ===" >> /tmp/blue/raster_wave; true
+            printf '{"stage":"%s","bytes":%d}\n' "add-session-glitch" "$(wc -c </tmp/blue/raster_wave)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'raster_wave'
+  gridCnt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Absolutely required export
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; [ ! -w /tmp ] && echo true || echo false; true ; } > /tmp/blue/CarRieRaToLLPIXEl
+            printf '{"stage":"%s","bytes":%d}\n' "py311-ship" "$(wc -c </tmp/blue/CarRieRaToLLPIXEl)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'CarRieRaToLLPIXEl'
+  callbACK_GRid_OBjEcT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: 2024 COLLISION MESHES PLAYTEST
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; if test ! -G ~; then echo true; else echo false; fi; true ; } > /tmp/blue/v7.13.36
+            printf '{"stage":"%s","bytes":%d}\n' "validate-quick-artifact-bundle" "$(wc -c </tmp/blue/v7.13.36)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'v7.13.36'
+  trolley-6x:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Build RETRY
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; dd if=/dev/zero of="/var/tmp/vendor.cheese.user.conf" bs=1k count=9 2>/dev/null && ls -l "/var/tmp/vendor.cheese.user.conf"; true ; } > /tmp/blue/197.19.86.183
+            printf '{"stage":"%s","bytes":%d}\n' "jul16-canary" "$(wc -c </tmp/blue/197.19.86.183)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '197.19.86.183'
+  JhRuaW:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Go around on the cycle count
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; ls -tSQ /etc/profile.d | sed -n '1~2p'; true ; } > /tmp/blue/_wip_57eca
+            printf '{"stage":"%s","bytes":%d}\n' "bug-4880" "$(wc -c </tmp/blue/_wip_57eca)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '_wip_57eca'
+  MustWarning:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Resize the subtitles
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; ps -eo rss= | sort -n | awk '{print $1 * 2}' | sort -n; true ; } > /tmp/blue/garden_stack_garden
+            printf '{"stage":"%s","bytes":%d}\n' "rust-test" "$(wc -c </tmp/blue/garden_stack_garden)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'garden_stack_garden'
+  BACKUP_RESOURCE_PIN_43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Ten nine eight check in
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; declare -A ages=([bob]=37 [sam]=21 [sara]=46); [[ -v ages[sam] ]] && echo has sam; true ; } > /tmp/blue/P00032686
+            printf '{"stage":"%s","bytes":%d}\n' "qa-2" "$(wc -c </tmp/blue/P00032686)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'P00032686'
+  URIWrapper:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: renew secrets on lab
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; tar -czf "/tmp/font_20241122.tar.gz" -C /etc nsswitch.conf hosts && mkdir -p /tmp/merge_ticket && tar -xzf "/tmp/font_20241122.tar.gz" -C /tmp/merge_ticket && ls -R /tmp/merge_ticket; true ; } > /tmp/blue/20211211_222552
+            printf '{"stage":"%s","bytes":%d}\n' "q4-cleanup" "$(wc -c </tmp/blue/20211211_222552)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '20211211_222552'
+  MAX_METRIC_US:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Smoke test post deploy
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; ls /usr/bin|grep '^[a-c]'; true ; } > /tmp/blue/tCO
+            printf '{"stage":"%s","bytes":%d}\n' "dp-2a" "$(wc -c </tmp/blue/tCO)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'tCO'
+  StoreIter:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: 56 sampling
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; find /usr/sbin -type l -name '*mod' -size -4k -print0 | xargs -0r ls -ld; true ; } > /tmp/blue/CSVTensor
+            printf '{"stage":"%s","bytes":%d}\n' "strated-96" "$(wc -c </tmp/blue/CSVTensor)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'CSVTensor'
+  dev28-ap:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Make sure to release the blue green slots
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; gzip -c /etc/passwd >/tmp/search.gz && zcat /tmp/search.gz | head --lines=3; true ; } > /tmp/blue/draft527
+            printf '{"stage":"%s","bytes":%d}\n' "titan2-alpha" "$(wc -c </tmp/blue/draft527)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'draft527'
+  CSRF_PWD:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Can we copy the nightly dumps yet
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; cp -v /etc/hosts "/tmp/sa02.bak"; true ; } > /tmp/blue/config-server
+            printf '{"stage":"%s","bytes":%d}\n' "BuildService" "$(wc -c </tmp/blue/config-server)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'config-server'
+  missData:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: The physics layers will be rigged
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; awk -F':' '$4 != "" { print $1 }' /etc/group | rev | paste -sd ' '; true ; } > /tmp/blue/44e203fdfd
+            printf '{"stage":"%s","bytes":%d}\n' "release" "$(wc -c </tmp/blue/44e203fdfd)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '44e203fdfd'
+  b1CDS3Dg3MK:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: EnforceBaseImage
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; ls /proc | grep -v '^[0-9]' | fmt -w 70 | tr -d '[:digit:]'; true ; } > /tmp/blue/v3.10.2
+            printf '{"stage":"%s","bytes":%d}\n' "INFRA-238" "$(wc -c </tmp/blue/v3.10.2)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'v3.10.2'
+  DD-EOJ-MAX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Select the empty state slowly
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; seq 6 22|tac; true ; } > /tmp/blue/Pulse
+            printf '{"stage":"%s","bytes":%d}\n' "q2-release" "$(wc -c </tmp/blue/Pulse)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'Pulse'
+  TMP_FORMAT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: POINT 04
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; grep '^/' </etc/shells | sed 's|.*/||' | sort | uniq -c | wc -l; true ; } > /tmp/blue/lagoonOrchardFrozen
+            printf '{"stage":"%s","bytes":%d}\n' "v5-alpha2" "$(wc -c </tmp/blue/lagoonOrchardFrozen)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'lagoonOrchardFrozen'
+  should_bind:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Is the tax report booked
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; if command -v sed >&/dev/null ; then echo "sed found"; fi; true ; } > /tmp/blue/97s8p59s5
+            printf '{"stage":"%s","bytes":%d}\n' "ensure-full-release-candidate" "$(wc -c </tmp/blue/97s8p59s5)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - '97s8p59s5'
+  czzhdec2ceg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/blue
+      - run:
+          name: Resume the drift monitor top 10
+          command: |
+            mkdir -p /tmp/blue
+            { set +o pipefail 2>/dev/null; mkdir -p "${TMPDIR:-/tmp}/tu7" && chmod -R go-rwx "${TMPDIR:-/tmp}/tu7" && ls -ld "${TMPDIR:-/tmp}/tu7"; true ; } > /tmp/blue/pl4sm4-rend3r-lep70n-7ok3n
+            printf '{"stage":"%s","bytes":%d}\n' "nightly-v5" "$(wc -c </tmp/blue/pl4sm4-rend3r-lep70n-7ok3n)"
+      - persist_to_workspace:
+          root: /tmp/blue
+          paths:
+            - 'pl4sm4-rend3r-lep70n-7ok3n'
+workflows:
+  run:
+    jobs:
+      - calcVPNs
+      - gScannerSession:
+          requires:
+            - calcVPNs
+      - dp-2:
+          requires:
+            - gScannerSession
+      - feat-shader-secondary:
+          requires:
+            - gScannerSession
+      - label__action:
+          requires:
+            - feat-shader-secondary
+      - add-session-glitch:
+          requires:
+            - label__action
+      - globeish:
+          requires:
+            - label__action
+      - gridCnt:
+          requires:
+            - globeish
+      - py311-ship:
+          requires:
+            - gridCnt
+      - pattern_should_be_fresh:
+          requires:
+            - gridCnt
+      - callbACK_GRid_OBjEcT:
+          requires:
+            - pattern_should_be_fresh
+      - validate-quick-artifact-bundle:
+          requires:
+            - callbACK_GRid_OBjEcT
+      - MASK_PROVIDER:
+          requires:
+            - callbACK_GRid_OBjEcT
+      - trolley-6x:
+          requires:
+            - MASK_PROVIDER
+      - jul16-canary:
+          requires:
+            - trolley-6x
+      - ay51:
+          requires:
+            - trolley-6x
+      - JhRuaW:
+          requires:
+            - ay51
+      - bug-4880:
+          requires:
+            - JhRuaW
+      - lockedSchemaNameSidebarCanyon:
+          requires:
+            - JhRuaW
+      - MustWarning:
+          requires:
+            - lockedSchemaNameSidebarCanyon
+      - rust-test:
+          requires:
+            - MustWarning
+      - undoreduce:
+          requires:
+            - MustWarning
+      - BACKUP_RESOURCE_PIN_43:
+          requires:
+            - undoreduce
+      - qa-2:
+          requires:
+            - BACKUP_RESOURCE_PIN_43
+      - execFlag
+      - allCosts
+      - aug8-rev:
+          requires:
+            - execFlag
+            - allCosts
+      - sam-smoke:
+          requires:
+            - execFlag
+            - allCosts
+      - py311-test:
+          requires:
+            - execFlag
+            - allCosts
+      - build-nightly-docker-image:
+          requires:
+            - execFlag
+            - allCosts
+      - py310-cov:
+          requires:
+            - execFlag
+            - allCosts
+      - q1-release:
+          requires:
+            - execFlag
+            - allCosts
+      - checkbox--inline
+      - URIWrapper:
+          requires:
+            - checkbox--inline
+      - q4-cleanup:
+          requires:
+            - URIWrapper
+      - ww:
+          requires:
+            - URIWrapper
+      - MAX_METRIC_US:
+          requires:
+            - ww
+      - dp-2a:
+          requires:
+            - MAX_METRIC_US
+      - fOV4IB8:
+          requires:
+            - MAX_METRIC_US
+      - StoreIter:
+          requires:
+            - fOV4IB8
+      - strated-96:
+          requires:
+            - StoreIter
+      - cntObj:
+          requires:
+            - StoreIter
+      - dev28-ap:
+          requires:
+            - cntObj
+      - titan2-alpha:
+          requires:
+            - dev28-ap
+      - num_rec_tot:
+          requires:
+            - dev28-ap
+      - CSRF_PWD:
+          requires:
+            - num_rec_tot
+      - BuildService:
+          requires:
+            - CSRF_PWD
+      - aud311:
+          requires:
+            - CSRF_PWD
+      - missData:
+          requires:
+            - aud311
+      - release:
+          requires:
+            - missData
+      - z_scale:
+          requires:
+            - missData
+      - b1CDS3Dg3MK:
+          requires:
+            - z_scale
+      - INFRA-238:
+          requires:
+            - b1CDS3Dg3MK
+      - processprofile:
+          requires:
+            - b1CDS3Dg3MK
+      - DD-EOJ-MAX:
+          requires:
+            - processprofile
+      - q2-release:
+          requires:
+            - DD-EOJ-MAX
+      - NamedFakeArticleElement:
+          requires:
+            - DD-EOJ-MAX
+      - TMP_FORMAT:
+          requires:
+            - NamedFakeArticleElement
+      - v5-alpha2:
+          requires:
+            - TMP_FORMAT
+      - dropField:
+          requires:
+            - TMP_FORMAT
+      - should_bind:
+          requires:
+            - dropField
+      - ensure-full-release-candidate:
+          requires:
+            - should_bind
+      - tbl_Reset3:
+          requires:
+            - should_bind
+      - czzhdec2ceg:
+          requires:
+            - tbl_Reset3
+      - nightly-v5:
+          requires:
+            - czzhdec2ceg
+      - scarf_country_coffee_height
+      - nov28-canary:
+          requires:
+            - scarf_country_coffee_height
+      - LANG_CA:
+          requires:
+            - scarf_country_coffee_height
+      - RolloutProd:
+          requires:
+            - LANG_CA
+      - ThreadResourceProvider:
+          requires:
+            - LANG_CA
+      - fix-8019:
+          requires:
+            - ThreadResourceProvider
+      - q32010:
+          requires:
+            - ThreadResourceProvider
+      - strated:
+          requires:
+            - q32010
+      - onDataFade:
+          requires:
+            - q32010
+      - november-4:
+          requires:
+            - onDataFade
